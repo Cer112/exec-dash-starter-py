@@ -4,6 +4,48 @@
 
 # TODO: write some Python code here to produce the desired functionality...
 
+import os
+import pandas
+
+## ... adapted from: https://github.com/s2t2/shopping-cart-screencast/blob/30c2a2873a796b8766e9b9ae57a2764725ccc793/shopping_cart.py#L56-L59
+def to_usd(my_price):
+    return "${0:,.2f]".format(my_price)
+
+CSV_FILENAME = "sales-201803.csv"
+
+csv_filepath = os.path.join(os.path.dirname(_file_), "data", csv_filename)
+
+csv_data = pandas.read_csv(csv_filepath)
+
+
+#print(type(csv_data))
+#print(csv_data)
+#print(list(csv_data.columns))
+
+
+
+monthly_total = csv_data["sales price"].sum()
+
+products_sold = csv_data["product"].unique()
+
+
+for product_name in products_sold:
+    print(product_name)
+
+
+breakpoint()
+
+top_sellers = [
+    {"rank": 1, "name": "Button-Down Shirt", "monthly_sales": 6960.35},
+    {"rank": 2, "name": "Super Soft Hoodie", "monthly_sales": 1875},
+
+
+
+
+
+
+
+
 print("-----------------------")
 print("MONTH: March 2018")
 
