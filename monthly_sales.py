@@ -1,9 +1,5 @@
 # monthly_sales.py
 
-# TODO: import some modules and packages here
-
-# TODO: write some Python code here to produce the desired functionality...
-
 import os
 import pandas
 
@@ -26,7 +22,7 @@ csv_data = pandas.read_csv(csv_filepath)
 
 monthly_total = csv_data["sales price"].sum()
 
-products_sold = csv_data["product"].unique()
+products_sold = products_sold.tolist()
 
 
 for product_name in products_sold:
