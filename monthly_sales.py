@@ -1,5 +1,12 @@
 # monthly_sales.py
 
+#
+#loop through top sellers- last commit completed.
+#
+
+
+
+
 import os
 import pandas
 
@@ -22,11 +29,33 @@ csv_data = pandas.read_csv(csv_filepath)
 
 monthly_total = csv_data["sales price"].sum()
 
-products_sold = products_sold.tolist()
+product_totals = csv_data.groupby(["product"]).sum()
 
 
-for product_name in products_sold:
-    print(product_name)
+
+product_totals = product_totals.sort_values("sales price", ascending=False)
+
+print(product_totals)
+
+rank = 1
+top_sellers = []
+product_names = product_totals.index.values.tolist()
+for product_name in product_names:
+    monthly_sales = 10
+    top_sellers.append({"rank": rank, "name": product_name, "monthly_sales": monthly_sales})
+
+
+#>                    unit price  units sold  sales price
+#> product
+#> Button-Down Shirt     1821.40         107      6960.35
+#> Super Soft Hoodie     1350.00          25      1875.00
+#> Khaki Pants           1157.00          18      1602.00
+#> Vintage Logo Tee       398.75          59       941.05
+#> Brown Boots            250.00           2       250.00
+#> Sticker Pack           108.00          48       216.00
+#> Baseball Cap           156.31           7       156.31
+
+
 
 
 breakpoint()
