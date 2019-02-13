@@ -64,10 +64,6 @@ for i, row in product_totals.iterrows():
 
 
 
-top_sellers = [
-    {"rank": 1, "name": "Button-Down Shirt", "monthly_sales": 6960.35},
-    {"rank": 2, "name": "Super Soft Hoodie", "monthly_sales": 1875},
-]
 
 print("-----------------------")
 print("MONTH: March 2018")
@@ -97,17 +93,21 @@ chart_filepath = os.path.join(os.path.dirname(__file__), "reports", chart_filena
 
 data = [
     graph_objs.Bar(
-        x=['giraffes', 'orangutans', 'monkeys'],
-        y=[20, 14, 23]
+        x=sorted_products_sales,
+        y=sorted_products_names,
+        orientation = "h"
     )
 ]
 
 chart_title = "Top Selling Products (March 2018)"
 
-chart_options = {
-    "data": data,
-    "layout": graph_objs.Layout(title=chart_title),
-}
+layout = graph_objs.Layout(
+    title=chart_title,
+    yaxis=dict(autorange="reversed")
+)
+
+
+chart_options = {"data": data,"layout": layout}
 
 
 
@@ -115,7 +115,5 @@ chart_options = {
 plotly.offline.plot(
     chart_options,
     filename=chart_filepath,
-    image="png",
-    image_filename=image_filename, 
     auto_open=True
 )
