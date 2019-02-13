@@ -9,10 +9,18 @@
 
 import os
 import pandas
+import plotly
+from plotly import graph_objs
 
 ## ... adapted from: https://github.com/s2t2/shopping-cart-screencast/blob/30c2a2873a796b8766e9b9ae57a2764725ccc793/shopping_cart.py#L56-L59
 def to_usd(my_price):
-    return "${0:,.2f]".format(my_price)
+    return "${0:,.2f}".format(my_price)
+
+#
+#Inputs
+#
+
+
 
 csv_filename = "sales-201803.csv"
 
@@ -21,11 +29,9 @@ csv_filepath = os.path.join(os.path.dirname(__file__), "data", csv_filename)
 csv_data = pandas.read_csv(csv_filepath)
 
 
-#print(type(csv_data))
-#print(csv_data)
-#print(list(csv_data.columns))
-
-
+#
+#Calculations
+#
 
 monthly_total = csv_data["sales price"].sum()
 
@@ -35,14 +41,14 @@ product_totals = csv_data.groupby(["product"]).sum()
 
 product_totals = product_totals.sort_values("sales price", ascending=False)
 
-print(product_totals)
 
-rank = 1
+
 top_sellers = []
-product_names = product_totals.index.values.tolist()
-for product_name in product_names:
-    monthly_sales = 10
-    top_sellers.append({"rank": rank, "name": product_name, "monthly_sales": monthly_sales})
+rank = 1
+for i, row in product_totals.iterrows():
+        d = {"rank": rank, "name": row.name, "monthly_sales": row["sales price"]}
+        top_sellers.append(d)
+        rank = rank + 1
 
 
 #>                    unit price  units sold  sales price
@@ -57,8 +63,6 @@ for product_name in product_names:
 
 
 
-
-breakpoint()
 
 top_sellers = [
     {"rank": 1, "name": "Button-Down Shirt", "monthly_sales": 6960.35},
@@ -76,9 +80,42 @@ print("TOTAL MONTHLY SALES: $12,000.71")
 
 print("-----------------------")
 print("TOP SELLING PRODUCTS:")
-print("  1) Button-Down Shirt: $6,960.35")
-print("  2) Super Soft Hoodie: $1,875.00")
-print("  3) etc.")
+for d in top_sellers:
+    print(" " + str(d["rank"]) + ") " + d["name"] + ": " + to_usd(d["monthly_sales"]))
+
 
 print("-----------------------")
 print("VISUALIZING THE DATA...")
+
+
+#
+#Data Visualization
+#
+
+chart_filename = "top-sellers-201803.html" #not finding this filname in plotly
+chart_filepath = os.path.join(os.path.dirname(__file__), "reports", chart_filename)
+
+data = [
+    graph_objs.Bar(
+        x=['giraffes', 'orangutans', 'monkeys'],
+        y=[20, 14, 23]
+    )
+]
+
+chart_title = "Top Selling Products (March 2018)"
+
+chart_options = {
+    "data": data,
+    "layout": graph_objs.Layout(title=chart_title),
+}
+
+
+
+
+plotly.offline.plot(
+    chart_options,
+    filename=chart_filepath,
+    image="png",
+    image_filename=image_filename, 
+    auto_open=True
+)
