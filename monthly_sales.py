@@ -1,5 +1,6 @@
 # monthly_sales.py
 
+import operator
 import os
 import pandas
 import matplotlib.pyplot as plt
@@ -22,14 +23,6 @@ csv_data = pandas.read_csv(csv_filepath)
 #
 
 monthly_total = csv_data["sales price"].sum()
-
-product_totals = csv_data.groupby(["product"]).sum()
-
-
-
-product_totals = product_totals.sort_values("sales price", ascending=False)
-
-
 
 top_sellers = []
 
@@ -57,6 +50,9 @@ for product_name in unique_product_names:
     matching_rows = csv_data[csv_data["product"] == product_name]
     product_monthly_sales = matching_rows["sales price"].sum()
     top_sellers.append({"name": product_name, "monthly_sales": product_monthly_sales})
+
+#sort the list
+top_sellers = sorted(top_sellers, key=operator.itemgetter("monthly_sales"), reverse=True)
 
 
 
@@ -95,13 +91,17 @@ for d in top_sellers:
     sorted_products.append(d["name"])
     sorted_sales.append(d["monthly_sales"])
 
+sorted_products.reverse()
+sorted_sales.reverse()
+
 plt.bar(sorted_products, sorted_sales)
 plt.title(chart_title)
 plt.xlabel("Product")
 plt.ylabel("Monthly Sales (USD)")
 plt.show()
 
-
+plt.tight_layout()
+plt.show()
 
 
 #Code used from Professor Rosetti exec-dash-starter-py
