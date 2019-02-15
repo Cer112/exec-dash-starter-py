@@ -7,7 +7,23 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 
-file_name = input("please type the name of the file that you would like to input")
+#file_name = input("Please type the name of the file that you would like to input: ")
+#csv_filename = file_name
+
+path = os.path.join("data")
+directory = os.listdir(path)
+
+#used slack channel 
+chosen_file = []
+while True:
+    file_name = input("Please type the name of the file that you would like to input: ")
+    if file_name in directory:
+        chosen_file.append(file_name)
+        break
+    else:
+        print("Sorry this file name was not found, please enter a new file name")
+        continue
+
 
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
@@ -16,31 +32,22 @@ def to_usd(my_price):
 #Inputs
 #
 
+
 csv_filename = file_name
-
-csv_filename = "sales-201803.csv"
-
 csv_filepath = os.path.join(os.path.dirname(__file__), "data", csv_filename)
 
 csv_data = pandas.read_csv(csv_filepath)
+
+
 
 #
 #Calculations
 #
 
+#adapted from https://github.com/s2t2/exec-dash-starter-py/commits/master/monthly_sales_alt.py
+
 monthly_total = csv_data["sales price"].sum()
 
-#breakpoint()
-# (Pdb) print(type(csv_data)) #> <class 'pandas.core.frame.DataFrame'>
-#
-# (Pdb) csv_data.head(3)
-#>          date            product  unit price  units sold  sales price
-#> 0  2018-03-01  Button-Down Shirt       65.05           2       130.10
-#> 1  2018-03-01   Vintage Logo Tee       15.95           1        15.95
-#> 2  2018-03-01       Sticker Pack        4.50           1         4.50
-#
-# Get unique products
-#
 product_names = csv_data["product"]
 
 unique_product_names = product_names.unique() 
@@ -67,7 +74,7 @@ print("-----------------------")
 print("CRUNCHING THE DATA...")
 
 print("-----------------------")
-print("TOTAL MONTHLY SALES: {to_usd(monthly_total)}")
+print(f"TOTAL MONTHLY SALES: {to_usd(monthly_total)}")
 
 print("-----------------------")
 print("TOP SELLING PRODUCTS:")
@@ -83,9 +90,18 @@ print("VISUALIZING THE DATA...")
 
 #
 #Data Visualization
-#
+#adapted from https://github.com/s2t2/exec-dash-starter-py/commits/master/monthly_sales_alt.py
 
-chart_title = "Top Selling Products (March 2018)"
+def month_lookup(month):
+	year_month={'01':'January','02':'February','03':'March','04':'April',
+	'05':'May','06':'June','07':'July','08':'August','09':'September','10':'October',
+	'11':'November', '12':'December'}
+	return year_month[month]
+
+month = month_lookup(csv_filename[-6:-4])
+year = int(csv_filename[6:10])
+
+chart_title = ("Top Selling Products (")+ str(month) + (" ") + str(year) + (")")
 
 sorted_products = []
 sorted_sales = []
@@ -110,4 +126,3 @@ plt.tight_layout()
 plt.show()
 
 
-#Code used from Professor Rosetti exec-dash-starter-py
