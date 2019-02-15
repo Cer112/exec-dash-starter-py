@@ -4,6 +4,7 @@ import operator
 import os
 import pandas
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
@@ -23,9 +24,6 @@ csv_data = pandas.read_csv(csv_filepath)
 #
 
 monthly_total = csv_data["sales price"].sum()
-
-top_sellers = []
-
 
 #breakpoint()
 # (Pdb) print(type(csv_data)) #> <class 'pandas.core.frame.DataFrame'>
@@ -94,11 +92,14 @@ for d in top_sellers:
 sorted_products.reverse()
 sorted_sales.reverse()
 
-plt.bar(sorted_products, sorted_sales)
+fig, ax = plt.subplots() 
+usd_formatter = ticker.FormatStrFormatter('$%1.0f')
+ax.xaxis.set_major_formatter(usd_formatter)
+
+plt.barh(sorted_products, sorted_sales)
 plt.title(chart_title)
-plt.xlabel("Product")
-plt.ylabel("Monthly Sales (USD)")
-plt.show()
+plt.ylabel("Product")
+plt.xlabel("Monthly Sales (USD)")
 
 plt.tight_layout()
 plt.show()
