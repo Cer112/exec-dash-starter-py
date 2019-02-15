@@ -13,7 +13,7 @@ import matplotlib.ticker as ticker
 path = os.path.join("data")
 directory = os.listdir(path)
 
-#used slack channel 
+#adapted from https://github.com/carolinefeeney/exec-dash-project/blob/master/monthly_sales.py
 chosen_file = []
 while True:
     file_name = input("Please type the name of the file that you would like to input: ")
