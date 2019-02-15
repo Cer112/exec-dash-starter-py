@@ -6,12 +6,17 @@ import pandas
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
+
+file_name = input("please type the name of the file that you would like to input")
+
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
 
 #
 #Inputs
 #
+
+csv_filename = file_name
 
 csv_filename = "sales-201803.csv"
 
