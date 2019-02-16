@@ -1,5 +1,7 @@
 # monthly_sales.py
 
+# # https://github.com/s2t2/exec-dash-starter-py/commits/master/monthly_sales_alt.py 
+
 import operator
 import os
 import pandas
@@ -7,13 +9,10 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 
-#file_name = input("Please type the name of the file that you would like to input: ")
-#csv_filename = file_name
-
 path = os.path.join("data")
 directory = os.listdir(path)
 
-#adapted from https://github.com/carolinefeeney/exec-dash-project/blob/master/monthly_sales.py
+#adapted from https://github.com/carolinefeeney/exec-dash-project/blob/05fdff1257a5cac446659e1433ed766631df8c75/monthly_sales.py
 chosen_file = []
 while True:
     file_name = input("Please type the name of the file that you would like to input: ")
@@ -92,6 +91,8 @@ print("VISUALIZING THE DATA...")
 #Data Visualization
 #adapted from https://github.com/s2t2/exec-dash-starter-py/commits/master/monthly_sales_alt.py
 
+
+#dates adapted from: https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/master/exercises/sales-reporting/pandas_explore.py
 def month_lookup(month):
 	year_month={'01':'January','02':'February','03':'March','04':'April',
 	'05':'May','06':'June','07':'July','08':'August','09':'September','10':'October',
